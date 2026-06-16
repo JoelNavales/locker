@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.png" alt="LOCKER — your study life, locked in" width="100%"/>
+<img src="locker/assets/banner.png" alt="LOCKER — your study life, locked in" width="100%"/>
 
 <br/>
 
