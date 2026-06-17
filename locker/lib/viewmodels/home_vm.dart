@@ -21,7 +21,6 @@ class HomeState {
   }
 }
 
-/// Holds the locker wall's sample data and bottom-nav selection.
 class HomeViewModel extends Notifier<HomeState> {
   @override
   HomeState build() {
@@ -31,8 +30,6 @@ class HomeViewModel extends Notifier<HomeState> {
     );
   }
 
-  // Hardcoded sample data for the UI-only phase.
-  // TODO: wire Firebase — load the user's lockers from Firestore.
   static const List<LockerModel> _sampleLockers = [
     LockerModel(
       id: '1',

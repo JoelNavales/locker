@@ -20,7 +20,6 @@ class NeuCard extends StatelessWidget {
   final double radius;
   final Offset shadowOffset;
 
-  /// Override the default solid 3px border (e.g. for a dashed add-tile look).
   final BoxBorder? border;
 
   @override

@@ -6,14 +6,11 @@ class OnboardingPage {
     required this.tagline,
   });
 
-  /// Number printed on the locker hero graphic.
   final String lockerNumber;
 
-  /// Bold tagline shown in the ink bar.
   final String tagline;
 }
 
-/// Immutable UI state for the onboarding flow.
 class OnboardingState {
   const OnboardingState({
     required this.pages,
@@ -33,7 +30,6 @@ class OnboardingState {
   }
 }
 
-/// Holds the onboarding pages and tracks the active page.
 class OnboardingViewModel extends Notifier<OnboardingState> {
   @override
   OnboardingState build() {

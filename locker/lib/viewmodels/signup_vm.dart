@@ -45,7 +45,7 @@ class SignupState {
   }
 }
 
-/// Owns the sign-up field values, the obscure toggle and validation.
+
 class SignupViewModel extends Notifier<SignupState> {
   @override
   SignupState build() => const SignupState();

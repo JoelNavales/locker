@@ -33,7 +33,6 @@ class LoginState {
   }
 }
 
-/// Owns the log-in field values, the obscure toggle and validation.
 class LoginViewModel extends Notifier<LoginState> {
   @override
   LoginState build() => const LoginState();
@@ -45,7 +44,6 @@ class LoginViewModel extends Notifier<LoginState> {
   void toggleObscure() =>
       state = state.copyWith(obscurePassword: !state.obscurePassword);
 
-  /// Attempt to log in.
   void submit() {
     if (!state.canSubmit) return;
     // TODO: wire Firebase Auth — sign in with email & password.

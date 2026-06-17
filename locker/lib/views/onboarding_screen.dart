@@ -117,7 +117,7 @@ class _OnboardingPageView extends StatelessWidget {
   }
 }
 
-/// Chunky locker graphic: a rounded rect with 3 vent bars, a latch and a number.
+
 class _LockerHero extends StatelessWidget {
   const _LockerHero({required this.number});
 
@@ -179,7 +179,7 @@ class _LockerHero extends StatelessWidget {
   }
 }
 
-/// Page-dot indicator; the active dot is a wide pill.
+
 class _Dots extends StatelessWidget {
   const _Dots({required this.count, required this.activeIndex});
 

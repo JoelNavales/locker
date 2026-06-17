@@ -67,7 +67,6 @@ class LockerTile extends StatelessWidget {
   }
 }
 
-/// The three horizontal vent bars at the top of a locker.
 class _VentRibs extends StatelessWidget {
   const _VentRibs();
 

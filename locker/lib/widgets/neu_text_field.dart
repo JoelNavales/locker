@@ -20,8 +20,6 @@ class NeuTextField extends StatelessWidget {
   final String? hint;
   final TextInputType? keyboardType;
 
-  /// Whether to obscure the text. When [onToggleObscure] is provided a
-  /// show/hide eye toggle is rendered.
   final bool obscure;
   final VoidCallback? onToggleObscure;
 

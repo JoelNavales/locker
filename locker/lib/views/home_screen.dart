@@ -100,7 +100,6 @@ class _Header extends StatelessWidget {
   }
 }
 
-/// The dashed "+ NEW LOCKER" tile at the end of the grid.
 class _AddLockerTile extends StatelessWidget {
   const _AddLockerTile({required this.onTap});
 
@@ -128,7 +127,6 @@ class _AddLockerTile extends StatelessWidget {
   }
 }
 
-/// Draws a dashed rounded-rect border for the add-locker tile.
 class _DashedBorderPainter extends CustomPainter {
   static const double _dash = 6;
   static const double _gap = 4;
