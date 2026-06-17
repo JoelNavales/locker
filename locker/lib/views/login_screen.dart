@@ -5,11 +5,21 @@ import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_theme.dart';
 import '../viewmodels/login_vm.dart';
+import '../widgets/error_banner.dart';
+import '../widgets/neu_back_button.dart';
 import '../widgets/neu_button.dart';
 import '../widgets/neu_text_field.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
+
+  Future<void> _handleLogin(BuildContext context, WidgetRef ref) async {
+    final bool ok = await ref.read(loginViewModelProvider.notifier).submit();
+    // On success, clear the auth stack so the AuthGate (root) takes over.
+    if (ok && context.mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,6 +38,10 @@ class LoginScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (Navigator.of(context).canPop()) ...[
+                    NeuBackButton(onTap: () => Navigator.of(context).pop()),
+                    const SizedBox(height: AppTheme.spaceLg),
+                  ],
                   Text('WELCOME\nBACK',
                       style: AppTextStyles.display(AppColors.ink)
                           .copyWith(fontSize: 40)),
@@ -45,15 +59,17 @@ class LoginScreen extends ConsumerWidget {
                     onToggleObscure: vm.toggleObscure,
                     onChanged: vm.setPassword,
                   ),
+                  if (state.errorMessage != null) ...[
+                    const SizedBox(height: AppTheme.spaceMd),
+                    ErrorBanner(message: state.errorMessage!),
+                  ],
                   const SizedBox(height: AppTheme.spaceLg),
                   NeuButton(
-                    label: 'LOG IN →',
+                    label: state.isSubmitting ? 'LOGGING IN…' : 'LOG IN →',
                     color: AppColors.priorityMedium,
+                    enabled: state.canSubmit,
                     onTap: () {
-                      vm.submit();
-                      // UI-only phase: enter the app without real auth yet.
-                      Navigator.of(context)
-                          .pushNamedAndRemoveUntil('/home', (_) => false);
+                      _handleLogin(context, ref);
                     },
                   ),
                   const SizedBox(height: AppTheme.spaceMd),

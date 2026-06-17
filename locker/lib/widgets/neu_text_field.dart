@@ -9,6 +9,7 @@ class NeuTextField extends StatelessWidget {
     super.key,
     required this.label,
     required this.onChanged,
+    this.controller,
     this.hint,
     this.keyboardType,
     this.obscure = false,
@@ -17,6 +18,7 @@ class NeuTextField extends StatelessWidget {
 
   final String label;
   final ValueChanged<String> onChanged;
+  final TextEditingController? controller;
   final String? hint;
   final TextInputType? keyboardType;
 
@@ -41,6 +43,7 @@ class NeuTextField extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
+                  controller: controller,
                   onChanged: onChanged,
                   obscureText: obscure,
                   keyboardType: keyboardType,

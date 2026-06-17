@@ -25,6 +25,18 @@ class LockerModel {
   final Priority priority;
   final int taskCount;
 
+  factory LockerModel.fromMap(String id, Map<String, dynamic> map) {
+    return LockerModel(
+      id: id,
+      subjectName: (map['subjectName'] as String?) ?? '',
+      priority: Priority.values.firstWhere(
+        (p) => p.name == map['priority'],
+        orElse: () => Priority.medium,
+      ),
+      taskCount: (map['taskCount'] as int?) ?? 0,
+    );
+  }
+
   LockerModel copyWith({
     String? id,
     String? subjectName,

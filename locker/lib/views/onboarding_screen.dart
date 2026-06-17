@@ -52,7 +52,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           ),
           child: Column(
             children: [
-              Text('LOCK\nER', textAlign: TextAlign.center, style: _wordmark),
+              Text('LOCKER', textAlign: TextAlign.center, style: _wordmark),
               Expanded(
                 child: PageView.builder(
                   controller: _controller,

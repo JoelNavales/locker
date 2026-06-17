@@ -1,21 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/locker_model.dart';
+/// Holds transient home-screen UI state. Lockers themselves live in
+/// [lockersProvider] (backed by Firestore).
 class HomeState {
-  const HomeState({
-    required this.lockers,
-    required this.selectedNavIndex,
-  });
+  const HomeState({this.selectedNavIndex = 0});
 
-  final List<LockerModel> lockers;
   final int selectedNavIndex;
 
-  HomeState copyWith({
-    List<LockerModel>? lockers,
-    int? selectedNavIndex,
-  }) {
+  HomeState copyWith({int? selectedNavIndex}) {
     return HomeState(
-      lockers: lockers ?? this.lockers,
       selectedNavIndex: selectedNavIndex ?? this.selectedNavIndex,
     );
   }
@@ -23,48 +16,11 @@ class HomeState {
 
 class HomeViewModel extends Notifier<HomeState> {
   @override
-  HomeState build() {
-    return const HomeState(
-      lockers: _sampleLockers,
-      selectedNavIndex: 0,
-    );
-  }
-
-  static const List<LockerModel> _sampleLockers = [
-    LockerModel(
-      id: '1',
-      subjectName: 'Capstone',
-      priority: Priority.high,
-      taskCount: 4,
-    ),
-    LockerModel(
-      id: '2',
-      subjectName: 'Math 101',
-      priority: Priority.medium,
-      taskCount: 2,
-    ),
-    LockerModel(
-      id: '3',
-      subjectName: 'P.E.',
-      priority: Priority.low,
-      taskCount: 0,
-    ),
-    LockerModel(
-      id: '4',
-      subjectName: 'Electives',
-      priority: Priority.medium,
-      taskCount: 1,
-    ),
-  ];
+  HomeState build() => const HomeState();
 
   void selectNav(int index) {
     if (index == state.selectedNavIndex) return;
     state = state.copyWith(selectedNavIndex: index);
-  }
-
-  /// Create a new locker.
-  void addLocker() {
-    // TODO: wire Firebase — persist a new locker to Firestore.
   }
 }
 
