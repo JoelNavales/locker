@@ -29,6 +29,7 @@ class SignupScreen extends ConsumerWidget {
 
     return Scaffold(
       body: Stack(
+        fit: StackFit.expand,
         children: [
           Positioned.fill(
             child: CustomPaint(painter: AppTheme.dotGridPainter),

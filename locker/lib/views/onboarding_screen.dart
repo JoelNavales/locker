@@ -25,7 +25,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   void _onPrimaryTap(OnboardingState state) {
     if (state.isLastPage) {
-      Navigator.of(context).pushNamed('/signup');
+      Navigator.of(context).pushNamed('/login');
     } else {
       _controller.nextPage(
         duration: const Duration(milliseconds: 300),

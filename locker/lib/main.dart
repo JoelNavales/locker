@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
+import 'services/app_prefs.dart';
 import 'services/auth_repository.dart';
 import 'services/user_repository.dart';
 import 'theme/app_colors.dart';
@@ -22,7 +24,15 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ProviderScope(child: LockerApp()));
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const LockerApp(),
+    ),
+  );
 }
 
 class LockerApp extends StatelessWidget {
@@ -58,7 +68,12 @@ class AuthGate extends ConsumerWidget {
       loading: () => const _Loading(),
       error: (error, stack) => const _Loading(),
       data: (user) {
-        if (user == null) return const OnboardingScreen();
+        if (user == null) {
+          // Returning users who signed out land straight on login; only true
+          // first-timers see the onboarding flow.
+          final bool returning = ref.watch(appPrefsProvider).hasAccountBefore;
+          return returning ? const LoginScreen() : const OnboardingScreen();
+        }
 
         final profile = ref.watch(userProfileProvider);
         return profile.when(

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'app_prefs.dart';
 import 'firebase_providers.dart';
 
 /// Maps a [FirebaseAuthException] to a short, user-facing message.
@@ -21,20 +22,22 @@ String authErrorMessage(FirebaseAuthException e) {
 }
 
 class AuthRepository {
-  AuthRepository(this._auth, this._db);
+  AuthRepository(this._auth, this._db, this._prefs);
 
   final FirebaseAuth _auth;
   final FirebaseFirestore _db;
+  final AppPrefs _prefs;
 
   Stream<User?> authStateChanges() => _auth.authStateChanges();
 
   User? get currentUser => _auth.currentUser;
 
-  Future<void> signIn({required String email, required String password}) {
-    return _auth.signInWithEmailAndPassword(
+  Future<void> signIn({required String email, required String password}) async {
+    await _auth.signInWithEmailAndPassword(
       email: email.trim(),
       password: password,
     );
+    await _prefs.markHasAccount();
   }
 
   /// Creates the auth account and seeds the user's Firestore profile document
@@ -57,15 +60,22 @@ class AuthRepository {
       'track': null,
       'createdAt': FieldValue.serverTimestamp(),
     });
+    await _prefs.markHasAccount();
   }
 
-  Future<void> signOut() => _auth.signOut();
+  /// Signs out. Records that this device has had an account so the next launch
+  /// routes to login (not onboarding) and greets the user with "Welcome back".
+  Future<void> signOut() async {
+    await _prefs.markHasAccount();
+    await _auth.signOut();
+  }
 }
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(
     ref.watch(firebaseAuthProvider),
     ref.watch(firestoreProvider),
+    ref.watch(appPrefsProvider),
   );
 });
 
