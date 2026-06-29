@@ -25,11 +25,9 @@ class TrackState {
   final String? errorMessage;
 
   /// The resolved track string for the current level.
-  String? get track =>
-      level == EducationLevel.shs ? strand : course.trim();
+  String? get track => level == EducationLevel.shs ? strand : course.trim();
 
-  bool get canSubmit =>
-      !isSubmitting && (track?.trim().isNotEmpty ?? false);
+  bool get canSubmit => !isSubmitting && (track?.trim().isNotEmpty ?? false);
 
   TrackState copyWith({
     EducationLevel? level,
@@ -95,5 +93,6 @@ class TrackViewModel extends Notifier<TrackState> {
   }
 }
 
-final trackViewModelProvider =
-    NotifierProvider<TrackViewModel, TrackState>(TrackViewModel.new);
+final trackViewModelProvider = NotifierProvider<TrackViewModel, TrackState>(
+  TrackViewModel.new,
+);

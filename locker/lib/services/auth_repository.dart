@@ -12,8 +12,7 @@ String authErrorMessage(FirebaseAuthException e) {
     'user-disabled' => 'This account has been disabled.',
     'user-not-found' ||
     'wrong-password' ||
-    'invalid-credential' =>
-      'Email or password is incorrect.',
+    'invalid-credential' => 'Email or password is incorrect.',
     'email-already-in-use' => 'An account already exists for that email.',
     'weak-password' => 'Password is too weak — use at least 6 characters.',
     'network-request-failed' => 'Network error. Check your connection.',

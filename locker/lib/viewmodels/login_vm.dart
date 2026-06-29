@@ -18,9 +18,8 @@ class LoginState {
   final bool isSubmitting;
   final String? errorMessage;
 
-  bool get isEmailValid => RegExp(
-        r'^[\w.+-]+@[\w-]+\.[\w.-]+$',
-      ).hasMatch(email.trim());
+  bool get isEmailValid =>
+      RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$').hasMatch(email.trim());
 
   bool get isPasswordValid => password.isNotEmpty;
 
@@ -68,8 +67,10 @@ class LoginViewModel extends Notifier<LoginState> {
       state = state.copyWith(isSubmitting: false);
       return true;
     } on FirebaseAuthException catch (e) {
-      state =
-          state.copyWith(isSubmitting: false, errorMessage: authErrorMessage(e));
+      state = state.copyWith(
+        isSubmitting: false,
+        errorMessage: authErrorMessage(e),
+      );
       return false;
     } catch (_) {
       state = state.copyWith(
@@ -81,5 +82,6 @@ class LoginViewModel extends Notifier<LoginState> {
   }
 }
 
-final loginViewModelProvider =
-    NotifierProvider<LoginViewModel, LoginState>(LoginViewModel.new);
+final loginViewModelProvider = NotifierProvider<LoginViewModel, LoginState>(
+  LoginViewModel.new,
+);

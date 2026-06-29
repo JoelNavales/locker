@@ -21,15 +21,11 @@ Future<void> main() async {
   // re-hides them automatically if a swipe reveals them, so navigation stays
   // in-app via each screen's own buttons.
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(
     ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(prefs),
-      ],
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
       child: const LockerApp(),
     ),
   );

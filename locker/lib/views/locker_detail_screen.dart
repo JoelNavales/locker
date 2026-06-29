@@ -22,13 +22,13 @@ class LockerDetailScreen extends ConsumerStatefulWidget {
   bool get isEditing => locker != null;
 
   @override
-  ConsumerState<LockerDetailScreen> createState() =>
-      _LockerDetailScreenState();
+  ConsumerState<LockerDetailScreen> createState() => _LockerDetailScreenState();
 }
 
 class _LockerDetailScreenState extends ConsumerState<LockerDetailScreen> {
-  late final TextEditingController _nameController =
-      TextEditingController(text: widget.locker?.subjectName ?? '');
+  late final TextEditingController _nameController = TextEditingController(
+    text: widget.locker?.subjectName ?? '',
+  );
   late Priority _priority = widget.locker?.priority ?? Priority.medium;
   bool _busy = false;
 
@@ -50,8 +50,12 @@ class _LockerDetailScreenState extends ConsumerState<LockerDetailScreen> {
     final String name = _nameController.text.trim();
     try {
       if (widget.isEditing) {
-        await repo.update(uid, widget.locker!.id,
-            subjectName: name, priority: _priority);
+        await repo.update(
+          uid,
+          widget.locker!.id,
+          subjectName: name,
+          priority: _priority,
+        );
       } else {
         await repo.add(uid, subjectName: name, priority: _priority);
       }
@@ -86,8 +90,10 @@ class _LockerDetailScreenState extends ConsumerState<LockerDetailScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surface,
-        title: Text('Delete locker?',
-            style: AppTextStyles.heading(AppColors.ink)),
+        title: Text(
+          'Delete locker?',
+          style: AppTextStyles.heading(AppColors.ink),
+        ),
         content: Text(
           'This removes "${widget.locker!.subjectName}" for good.',
           style: AppTextStyles.body(AppColors.ink),
@@ -99,8 +105,10 @@ class _LockerDetailScreenState extends ConsumerState<LockerDetailScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('DELETE',
-                style: AppTextStyles.label(AppColors.priorityHigh)),
+            child: Text(
+              'DELETE',
+              style: AppTextStyles.label(AppColors.priorityHigh),
+            ),
           ),
         ],
       ),
@@ -109,8 +117,9 @@ class _LockerDetailScreenState extends ConsumerState<LockerDetailScreen> {
   }
 
   void _showSnack(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -118,71 +127,78 @@ class _LockerDetailScreenState extends ConsumerState<LockerDetailScreen> {
     final String title = widget.isEditing ? 'CUSTOMIZE\nLOCKER' : 'NEW\nLOCKER';
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(child: CustomPaint(painter: AppTheme.dotGridPainter)),
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppTheme.spaceLg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      NeuBackButton(onTap: () => Navigator.of(context).pop()),
-                      const SizedBox(width: AppTheme.spaceMd),
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: AppTextStyles.display(AppColors.ink)
-                              .copyWith(fontSize: 34),
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CustomPaint(painter: AppTheme.dotGridPainter),
+            ),
+            SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(AppTheme.spaceLg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        NeuBackButton(onTap: () => Navigator.of(context).pop()),
+                        const SizedBox(width: AppTheme.spaceMd),
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: AppTextStyles.display(
+                              AppColors.ink,
+                            ).copyWith(fontSize: 34),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppTheme.spaceLg),
-                  NeuTextField(
-                    label: 'Subject name',
-                    hint: 'e.g. Capstone',
-                    controller: _nameController,
-                    onChanged: (_) => setState(() {}),
-                  ),
-                  const SizedBox(height: AppTheme.spaceLg),
-                  Text('PRIORITY', style: AppTextStyles.label(AppColors.ink)),
-                  const SizedBox(height: AppTheme.spaceSm),
-                  _PrioritySelector(
-                    selected: _priority,
-                    onSelect: (p) => setState(() => _priority = p),
-                  ),
-                  const SizedBox(height: AppTheme.spaceXl),
-                  NeuButton(
-                    label: _busy
-                        ? 'SAVING…'
-                        : (widget.isEditing ? 'SAVE CHANGES' : 'CREATE LOCKER'),
-                    color: AppColors.priorityLow,
-                    foreground: AppColors.onInk,
-                    enabled: _canSave,
-                    onTap: () {
-                      _save();
-                    },
-                  ),
-                  if (widget.isEditing) ...[
-                    const SizedBox(height: AppTheme.spaceMd),
+                      ],
+                    ),
+                    const SizedBox(height: AppTheme.spaceLg),
+                    NeuTextField(
+                      label: 'Subject name',
+                      hint: 'e.g. Capstone',
+                      controller: _nameController,
+                      onChanged: (_) => setState(() {}),
+                    ),
+                    const SizedBox(height: AppTheme.spaceLg),
+                    Text('PRIORITY', style: AppTextStyles.label(AppColors.ink)),
+                    const SizedBox(height: AppTheme.spaceSm),
+                    _PrioritySelector(
+                      selected: _priority,
+                      onSelect: (p) => setState(() => _priority = p),
+                    ),
+                    const SizedBox(height: AppTheme.spaceXl),
                     NeuButton(
-                      label: 'DELETE LOCKER',
-                      color: AppColors.priorityHigh,
+                      label: _busy
+                          ? 'SAVING…'
+                          : (widget.isEditing
+                                ? 'SAVE CHANGES'
+                                : 'CREATE LOCKER'),
+                      color: AppColors.priorityLow,
                       foreground: AppColors.onInk,
-                      enabled: !_busy,
+                      enabled: _canSave,
                       onTap: () {
-                        _delete();
+                        _save();
                       },
                     ),
+                    if (widget.isEditing) ...[
+                      const SizedBox(height: AppTheme.spaceMd),
+                      NeuButton(
+                        label: 'DELETE LOCKER',
+                        color: AppColors.priorityHigh,
+                        foreground: AppColors.onInk,
+                        enabled: !_busy,
+                        onTap: () {
+                          _delete();
+                        },
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -206,9 +222,7 @@ class _PrioritySelector extends StatelessWidget {
                 color: AppColors.forPriority(priority),
                 radius: AppTheme.radius,
                 shadowOffset: const Offset(4, 4),
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppTheme.spaceMd,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                 border: priority == selected
                     ? Border.all(color: AppColors.ink, width: 5)
                     : null,

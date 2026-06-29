@@ -1,13 +1,12 @@
-
 enum Priority { high, medium, low }
 
 extension PriorityLabel on Priority {
   /// Short uppercase label shown on the priority pill.
   String get label => switch (this) {
-        Priority.high => 'HIGH',
-        Priority.medium => 'MED',
-        Priority.low => 'LOW',
-      };
+    Priority.high => 'HIGH',
+    Priority.medium => 'MED',
+    Priority.low => 'LOW',
+  };
 }
 
 /// A subject represented as a locker on the wall. Plain immutable data — no

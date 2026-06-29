@@ -28,25 +28,25 @@ class LoginScreen extends ConsumerWidget {
     // Returning users (who signed up/in before, then signed out) get a warmer
     // greeting; first-time visitors get the welcome.
     final bool isReturning = ref.watch(appPrefsProvider).hasAccountBefore;
-    final String greeting =
-        isReturning ? 'WELCOME BACK' : 'WELCOME TO LOCKER';
+    final String greeting = isReturning ? 'WELCOME BACK' : 'WELCOME TO LOCKER';
 
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Positioned.fill(
-            child: CustomPaint(painter: AppTheme.dotGridPainter),
-          ),
+          Positioned.fill(child: CustomPaint(painter: AppTheme.dotGridPainter)),
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(AppTheme.spaceLg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(greeting,
-                      style: AppTextStyles.display(AppColors.ink)
-                          .copyWith(fontSize: 40)),
+                  Text(
+                    greeting,
+                    style: AppTextStyles.display(
+                      AppColors.ink,
+                    ).copyWith(fontSize: 40),
+                  ),
                   const SizedBox(height: AppTheme.spaceLg),
                   NeuTextField(
                     label: 'Email',
@@ -91,9 +91,9 @@ class LoginScreen extends ConsumerWidget {
                       },
                       child: Text(
                         "DON'T HAVE A KEY? SIGN UP",
-                        style: AppTextStyles.label(AppColors.ink).copyWith(
-                          decoration: TextDecoration.underline,
-                        ),
+                        style: AppTextStyles.label(
+                          AppColors.ink,
+                        ).copyWith(decoration: TextDecoration.underline),
                       ),
                     ),
                   ),

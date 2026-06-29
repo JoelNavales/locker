@@ -24,9 +24,8 @@ class SignupState {
 
   bool get isNameValid => name.trim().isNotEmpty;
 
-  bool get isEmailValid => RegExp(
-        r'^[\w.+-]+@[\w-]+\.[\w.-]+$',
-      ).hasMatch(email.trim());
+  bool get isEmailValid =>
+      RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$').hasMatch(email.trim());
 
   bool get isPasswordValid => password.length >= 6;
 
@@ -86,7 +85,9 @@ class SignupViewModel extends Notifier<SignupState> {
     if (!state.canSubmit) return false;
     state = state.copyWith(isSubmitting: true, clearError: true);
     try {
-      await ref.read(authRepositoryProvider).signUp(
+      await ref
+          .read(authRepositoryProvider)
+          .signUp(
             name: state.name,
             email: state.email,
             password: state.password,
@@ -94,8 +95,10 @@ class SignupViewModel extends Notifier<SignupState> {
       state = state.copyWith(isSubmitting: false);
       return true;
     } on FirebaseAuthException catch (e) {
-      state =
-          state.copyWith(isSubmitting: false, errorMessage: authErrorMessage(e));
+      state = state.copyWith(
+        isSubmitting: false,
+        errorMessage: authErrorMessage(e),
+      );
       return false;
     } catch (_) {
       state = state.copyWith(
@@ -107,5 +110,6 @@ class SignupViewModel extends Notifier<SignupState> {
   }
 }
 
-final signupViewModelProvider =
-    NotifierProvider<SignupViewModel, SignupState>(SignupViewModel.new);
+final signupViewModelProvider = NotifierProvider<SignupViewModel, SignupState>(
+  SignupViewModel.new,
+);

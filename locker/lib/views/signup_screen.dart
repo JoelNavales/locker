@@ -31,9 +31,7 @@ class SignupScreen extends ConsumerWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Positioned.fill(
-            child: CustomPaint(painter: AppTheme.dotGridPainter),
-          ),
+          Positioned.fill(child: CustomPaint(painter: AppTheme.dotGridPainter)),
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(AppTheme.spaceLg),
@@ -44,9 +42,12 @@ class SignupScreen extends ConsumerWidget {
                     NeuBackButton(onTap: () => Navigator.of(context).pop()),
                     const SizedBox(height: AppTheme.spaceLg),
                   ],
-                  Text('CREATE\nACCOUNT',
-                      style: AppTextStyles.display(AppColors.ink)
-                          .copyWith(fontSize: 40)),
+                  Text(
+                    'CREATE\nACCOUNT',
+                    style: AppTextStyles.display(
+                      AppColors.ink,
+                    ).copyWith(fontSize: 40),
+                  ),
                   const SizedBox(height: AppTheme.spaceLg),
                   NeuTextField(
                     label: 'Name',
@@ -80,9 +81,7 @@ class SignupScreen extends ConsumerWidget {
                   ],
                   const SizedBox(height: AppTheme.spaceLg),
                   NeuButton(
-                    label: state.isSubmitting
-                        ? 'CREATING…'
-                        : 'CREATE ACCOUNT',
+                    label: state.isSubmitting ? 'CREATING…' : 'CREATE ACCOUNT',
                     color: AppColors.priorityHigh,
                     foreground: AppColors.onInk,
                     enabled: state.canSubmit,
@@ -97,9 +96,9 @@ class SignupScreen extends ConsumerWidget {
                           Navigator.of(context).pushReplacementNamed('/login'),
                       child: Text(
                         'ALREADY HAVE A KEY? LOG IN',
-                        style: AppTextStyles.label(AppColors.ink).copyWith(
-                          decoration: TextDecoration.underline,
-                        ),
+                        style: AppTextStyles.label(
+                          AppColors.ink,
+                        ).copyWith(decoration: TextDecoration.underline),
                       ),
                     ),
                   ),

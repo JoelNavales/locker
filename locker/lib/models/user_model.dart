@@ -5,15 +5,15 @@ enum EducationLevel { shs, college }
 extension EducationLevelLabel on EducationLevel {
   /// Human-readable label for the level toggle.
   String get label => switch (this) {
-        EducationLevel.shs => 'Senior High',
-        EducationLevel.college => 'College',
-      };
+    EducationLevel.shs => 'Senior High',
+    EducationLevel.college => 'College',
+  };
 
   /// Label for the track the user belongs to under this level.
   String get trackLabel => switch (this) {
-        EducationLevel.shs => 'Strand',
-        EducationLevel.college => 'Course',
-      };
+    EducationLevel.shs => 'Strand',
+    EducationLevel.college => 'Course',
+  };
 }
 
 class UserModel {

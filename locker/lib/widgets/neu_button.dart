@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_theme.dart';
+
 class NeuButton extends StatefulWidget {
   const NeuButton({
     super.key,
@@ -33,8 +34,9 @@ class _NeuButtonState extends State<NeuButton> {
   @override
   Widget build(BuildContext context) {
     final bool enabled = widget.enabled;
-    final Offset shift =
-        (_pressed && enabled) ? const Offset(4, 4) : Offset.zero;
+    final Offset shift = (_pressed && enabled)
+        ? const Offset(4, 4)
+        : Offset.zero;
 
     return GestureDetector(
       onTapDown: enabled ? (_) => _setPressed(true) : null,
@@ -54,8 +56,9 @@ class _NeuButtonState extends State<NeuButton> {
               color: widget.color,
               border: AppTheme.border,
               borderRadius: BorderRadius.circular(AppTheme.radius),
-              boxShadow:
-                  (_pressed && enabled) ? const [] : AppTheme.hardShadowSmall,
+              boxShadow: (_pressed && enabled)
+                  ? const []
+                  : AppTheme.hardShadowSmall,
             ),
             child: Text(
               widget.label,

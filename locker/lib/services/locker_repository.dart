@@ -14,7 +14,10 @@ class LockerRepository {
       _db.collection('users').doc(uid).collection('lockers');
 
   Stream<List<LockerModel>> watch(String uid) {
-    return _col(uid).orderBy('createdAt').snapshots().map(
+    return _col(uid)
+        .orderBy('createdAt')
+        .snapshots()
+        .map(
           (snap) => snap.docs
               .map((d) => LockerModel.fromMap(d.id, d.data()))
               .toList(),
@@ -46,8 +49,17 @@ class LockerRepository {
     });
   }
 
-  Future<void> delete(String uid, String lockerId) =>
-      _col(uid).doc(lockerId).delete();
+  /// Deletes a locker and its tasks subcollection. Firestore does not cascade
+  /// subcollection deletes, so the tasks are removed explicitly first.
+  Future<void> delete(String uid, String lockerId) async {
+    final tasks = await _col(uid).doc(lockerId).collection('tasks').get();
+    final batch = _db.batch();
+    for (final doc in tasks.docs) {
+      batch.delete(doc.reference);
+    }
+    batch.delete(_col(uid).doc(lockerId));
+    await batch.commit();
+  }
 }
 
 final lockerRepositoryProvider = Provider<LockerRepository>((ref) {

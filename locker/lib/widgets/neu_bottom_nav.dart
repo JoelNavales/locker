@@ -74,9 +74,7 @@ class _NavCell extends StatelessWidget {
         decoration: BoxDecoration(
           color: active ? AppColors.ink : Colors.transparent,
           border: showDivider
-              ? const Border(
-                  right: BorderSide(color: AppColors.ink, width: 2),
-                )
+              ? const Border(right: BorderSide(color: AppColors.ink, width: 2))
               : null,
         ),
         child: Column(

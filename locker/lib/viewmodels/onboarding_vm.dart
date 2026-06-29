@@ -1,10 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OnboardingPage {
-  const OnboardingPage({
-    required this.lockerNumber,
-    required this.tagline,
-  });
+  const OnboardingPage({required this.lockerNumber, required this.tagline});
 
   final String lockerNumber;
 
@@ -12,10 +9,7 @@ class OnboardingPage {
 }
 
 class OnboardingState {
-  const OnboardingState({
-    required this.pages,
-    required this.currentPage,
-  });
+  const OnboardingState({required this.pages, required this.currentPage});
 
   final List<OnboardingPage> pages;
   final int currentPage;
@@ -60,5 +54,5 @@ class OnboardingViewModel extends Notifier<OnboardingState> {
 
 final onboardingViewModelProvider =
     NotifierProvider<OnboardingViewModel, OnboardingState>(
-  OnboardingViewModel.new,
-);
+      OnboardingViewModel.new,
+    );

@@ -37,8 +37,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final OnboardingState state = ref.watch(onboardingViewModelProvider);
-    final OnboardingViewModel vm =
-        ref.read(onboardingViewModelProvider.notifier);
+    final OnboardingViewModel vm = ref.read(
+      onboardingViewModelProvider.notifier,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.blue,
@@ -88,10 +89,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   static final TextStyle _wordmark =
       AppTextStyles.display(AppColors.priorityMedium).copyWith(
-    shadows: const [
-      Shadow(color: AppColors.ink, offset: Offset(3, 3)),
-    ],
-  );
+        shadows: const [Shadow(color: AppColors.ink, offset: Offset(3, 3))],
+      );
 }
 
 /// The per-page content: the locker hero graphic and the tagline bar.
@@ -110,13 +109,15 @@ class _OnboardingPageView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           color: AppColors.ink,
-          child: Text(page.tagline, style: AppTextStyles.label(AppColors.onInk)),
+          child: Text(
+            page.tagline,
+            style: AppTextStyles.label(AppColors.onInk),
+          ),
         ),
       ],
     );
   }
 }
-
 
 class _LockerHero extends StatelessWidget {
   const _LockerHero({required this.number});
@@ -157,7 +158,9 @@ class _LockerHero extends StatelessWidget {
             number,
             style: AppTextStyles.heading(AppColors.onInk).copyWith(
               fontSize: 34,
-              shadows: const [Shadow(color: AppColors.ink, offset: Offset(2, 2))],
+              shadows: const [
+                Shadow(color: AppColors.ink, offset: Offset(2, 2)),
+              ],
             ),
           ),
           // Latch on the right.
@@ -178,7 +181,6 @@ class _LockerHero extends StatelessWidget {
     );
   }
 }
-
 
 class _Dots extends StatelessWidget {
   const _Dots({required this.count, required this.activeIndex});

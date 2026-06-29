@@ -31,9 +31,12 @@ class SelectTrackScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('WHERE DO\nYOU BELONG?',
-                      style: AppTextStyles.display(AppColors.ink)
-                          .copyWith(fontSize: 38)),
+                  Text(
+                    'WHERE DO\nYOU BELONG?',
+                    style: AppTextStyles.display(
+                      AppColors.ink,
+                    ).copyWith(fontSize: 38),
+                  ),
                   const SizedBox(height: AppTheme.spaceSm),
                   Text(
                     'Pick your level, then your ${state.level.trackLabel.toLowerCase()}.',
@@ -74,8 +77,9 @@ class SelectTrackScreen extends ConsumerWidget {
                           ref.read(authRepositoryProvider).signOut(),
                       child: Text(
                         'NOT YOU? SIGN OUT',
-                        style: AppTextStyles.label(AppColors.ink)
-                            .copyWith(decoration: TextDecoration.underline),
+                        style: AppTextStyles.label(
+                          AppColors.ink,
+                        ).copyWith(decoration: TextDecoration.underline),
                       ),
                     ),
                   ),
@@ -104,15 +108,15 @@ class _LevelToggle extends StatelessWidget {
             child: GestureDetector(
               onTap: () => onChanged(option),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
+                padding: const EdgeInsets.symmetric(vertical: AppTheme.spaceMd),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: option == level ? AppColors.violet : AppColors.surface,
                   border: AppTheme.border,
                   borderRadius: BorderRadius.circular(AppTheme.radius),
-                  boxShadow:
-                      option == level ? AppTheme.hardShadowSmall : const [],
+                  boxShadow: option == level
+                      ? AppTheme.hardShadowSmall
+                      : const [],
                 ),
                 child: Text(
                   option.label.toUpperCase(),

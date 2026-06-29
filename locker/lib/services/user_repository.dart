@@ -22,10 +22,10 @@ class UserRepository {
   }
 
   Future<void> setTrack(String uid, EducationLevel level, String track) {
-    return _doc(uid).set(
-      {'level': level.name, 'track': track.trim()},
-      SetOptions(merge: true),
-    );
+    return _doc(uid).set({
+      'level': level.name,
+      'track': track.trim(),
+    }, SetOptions(merge: true));
   }
 }
 

@@ -26,7 +26,11 @@ class ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.warning_amber_rounded, color: AppColors.onInk, size: 18),
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: AppColors.onInk,
+            size: 18,
+          ),
           const SizedBox(width: AppTheme.spaceSm),
           Expanded(
             child: Text(message, style: AppTextStyles.body(AppColors.onInk)),

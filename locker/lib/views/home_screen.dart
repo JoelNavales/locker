@@ -11,7 +11,9 @@ import '../theme/app_theme.dart';
 import '../viewmodels/home_vm.dart';
 import '../widgets/locker_tile.dart';
 import '../widgets/neu_bottom_nav.dart';
+import 'calendar_screen.dart';
 import 'locker_detail_screen.dart';
+import 'locker_tasks_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -23,10 +25,14 @@ class HomeScreen extends ConsumerWidget {
     NeuNavItem(icon: Icons.people, label: 'Friends'),
   ];
 
+  /// Tapping a locker opens its task list; the dashed add-tile (locker == null)
+  /// jumps straight to creating a new locker.
   void _openLocker(BuildContext context, [LockerModel? locker]) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => LockerDetailScreen(locker: locker),
+        builder: (_) => locker == null
+            ? const LockerDetailScreen()
+            : LockerTasksScreen(locker: locker),
       ),
     );
   }
@@ -40,13 +46,15 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned.fill(
-            child: CustomPaint(painter: AppTheme.dotGridPainter),
-          ),
+          Positioned.fill(child: CustomPaint(painter: AppTheme.dotGridPainter)),
           SafeArea(
             child: Column(
               children: [
-                _Header(title: _navItems[index].label),
+                _Header(
+                  title: _navItems[index].label,
+                  showTrack: index == 0,
+                  showProfile: index == 0,
+                ),
                 Expanded(child: _bodyFor(context, ref, index)),
               ],
             ),
@@ -66,7 +74,7 @@ class HomeScreen extends ConsumerWidget {
   Widget _bodyFor(BuildContext context, WidgetRef ref, int index) {
     return switch (index) {
       0 => _LockerGrid(onOpen: _openLocker),
-      1 => const _ComingSoon(icon: Icons.calendar_today, label: 'Calendar'),
+      1 => const CalendarView(),
       2 => const _ComingSoon(icon: Icons.timer, label: 'Focus'),
       _ => const _ComingSoon(icon: Icons.people, label: 'Friends'),
     };
@@ -102,10 +110,7 @@ class _LockerGrid extends ConsumerWidget {
         ),
         children: [
           for (final locker in items)
-            LockerTile(
-              locker: locker,
-              onTap: () => onOpen(context, locker),
-            ),
+            LockerTile(locker: locker, onTap: () => onOpen(context, locker)),
           _AddLockerTile(onTap: () => onOpen(context)),
         ],
       ),
@@ -127,8 +132,10 @@ class _ComingSoon extends StatelessWidget {
         children: [
           Icon(icon, size: 48, color: AppColors.ink),
           const SizedBox(height: AppTheme.spaceMd),
-          Text(label.toUpperCase(),
-              style: AppTextStyles.heading(AppColors.ink)),
+          Text(
+            label.toUpperCase(),
+            style: AppTextStyles.heading(AppColors.ink),
+          ),
           const SizedBox(height: AppTheme.spaceXs),
           Text('COMING SOON', style: AppTextStyles.body(AppColors.ink)),
         ],
@@ -138,9 +145,21 @@ class _ComingSoon extends StatelessWidget {
 }
 
 class _Header extends ConsumerWidget {
-  const _Header({required this.title});
+  const _Header({
+    required this.title,
+    this.showTrack = true,
+    this.showProfile = true,
+  });
 
   final String title;
+
+  /// Whether to show the user's track under the title. Hidden on tabs other
+  /// than Lockers to keep them uncluttered.
+  final bool showTrack;
+
+  /// Whether to show the profile/sign-out avatar. Hidden on tabs other than
+  /// Lockers.
+  final bool showProfile;
 
   Future<void> _confirmSignOut(BuildContext context, WidgetRef ref) async {
     final bool? out = await showDialog<bool>(
@@ -155,8 +174,10 @@ class _Header extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('SIGN OUT',
-                style: AppTextStyles.label(AppColors.priorityHigh)),
+            child: Text(
+              'SIGN OUT',
+              style: AppTextStyles.label(AppColors.priorityHigh),
+            ),
           ),
         ],
       ),
@@ -187,29 +208,34 @@ class _Header extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title.toUpperCase(),
-                  style: AppTextStyles.heading(AppColors.ink)),
-              if (track.isNotEmpty)
-                Text(track.toUpperCase(),
-                    style: AppTextStyles.body(AppColors.ink)),
+              Text(
+                title.toUpperCase(),
+                style: AppTextStyles.heading(AppColors.ink),
+              ),
+              if (showTrack && track.isNotEmpty)
+                Text(
+                  track.toUpperCase(),
+                  style: AppTextStyles.body(AppColors.ink),
+                ),
             ],
           ),
-          GestureDetector(
-            onTap: () => _confirmSignOut(context, ref),
-            child: Container(
-              width: 38,
-              height: 38,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: AppColors.violet,
-                shape: BoxShape.circle,
-                border: AppTheme.border,
-                boxShadow: AppTheme.hardShadowSmall,
+          if (showProfile)
+            GestureDetector(
+              onTap: () => _confirmSignOut(context, ref),
+              child: Container(
+                width: 38,
+                height: 38,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: AppColors.violet,
+                  shape: BoxShape.circle,
+                  border: AppTheme.border,
+                  boxShadow: AppTheme.hardShadowSmall,
+                ),
+                child:
+                    Text(initial, style: AppTextStyles.label(AppColors.onInk)),
               ),
-              child:
-                  Text(initial, style: AppTextStyles.label(AppColors.onInk)),
             ),
-          ),
         ],
       ),
     );
@@ -231,9 +257,12 @@ class _AddLockerTile extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('+',
-                  style: AppTextStyles.display(AppColors.ink)
-                      .copyWith(fontSize: 28, height: 1)),
+              Text(
+                '+',
+                style: AppTextStyles.display(
+                  AppColors.ink,
+                ).copyWith(fontSize: 28, height: 1),
+              ),
               Text('NEW LOCKER', style: AppTextStyles.body(AppColors.ink)),
             ],
           ),
@@ -263,10 +292,7 @@ class _DashedBorderPainter extends CustomPainter {
     for (final metric in source.computeMetrics()) {
       double distance = 0;
       while (distance < metric.length) {
-        canvas.drawPath(
-          metric.extractPath(distance, distance + _dash),
-          paint,
-        );
+        canvas.drawPath(metric.extractPath(distance, distance + _dash), paint);
         distance += _dash + _gap;
       }
     }

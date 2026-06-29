@@ -6,11 +6,7 @@ import '../theme/app_theme.dart';
 import 'neu_card.dart';
 
 class LockerTile extends StatelessWidget {
-  const LockerTile({
-    super.key,
-    required this.locker,
-    required this.onTap,
-  });
+  const LockerTile({super.key, required this.locker, required this.onTap});
 
   final LockerModel locker;
   final VoidCallback onTap;
@@ -95,8 +91,7 @@ class _TaskMeta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String text =
-        taskCount == 0 ? '0 tasks' : '$taskCount tasks due';
+    final String text = taskCount == 0 ? '0 tasks' : '$taskCount tasks due';
     return Text(text, style: AppTextStyles.body(color));
   }
 }

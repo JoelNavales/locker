@@ -28,10 +28,10 @@ abstract final class AppColors {
 
   /// Fill color for a locker of the given priority.
   static Color forPriority(Priority priority) => switch (priority) {
-        Priority.high => priorityHigh,
-        Priority.medium => priorityMedium,
-        Priority.low => priorityLow,
-      };
+    Priority.high => priorityHigh,
+    Priority.medium => priorityMedium,
+    Priority.low => priorityLow,
+  };
 
   /// Readable text/icon color to use on top of a [forPriority] fill.
   /// Medium (yellow) needs dark ink; the others are dark enough for white.

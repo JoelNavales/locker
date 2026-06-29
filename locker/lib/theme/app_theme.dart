@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'app_text_styles.dart';
+
 abstract final class AppTheme {
   const AppTheme._();
 
@@ -24,13 +25,13 @@ abstract final class AppTheme {
 
   /// Signature hard shadow (no blur). Offset is configurable; defaults to 6,6.
   static List<BoxShadow> hardShadow({Offset offset = const Offset(6, 6)}) => [
-        BoxShadow(
-          color: AppColors.ink,
-          offset: offset,
-          blurRadius: 0,
-          spreadRadius: 0,
-        ),
-      ];
+    BoxShadow(
+      color: AppColors.ink,
+      offset: offset,
+      blurRadius: 0,
+      spreadRadius: 0,
+    ),
+  ];
 
   /// Smaller 4,4 variant of the hard shadow.
   static List<BoxShadow> get hardShadowSmall =>
@@ -53,9 +54,7 @@ abstract final class AppTheme {
         primary: AppColors.blue,
         surface: AppColors.surface,
       ),
-      textTheme: TextTheme(
-        bodyMedium: AppTextStyles.body(AppColors.ink),
-      ),
+      textTheme: TextTheme(bodyMedium: AppTextStyles.body(AppColors.ink)),
     );
   }
 }
@@ -66,8 +65,7 @@ class _DotGridPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = AppColors.ink.withValues(alpha: 0.12);
+    final Paint paint = Paint()..color = AppColors.ink.withValues(alpha: 0.12);
     for (double y = 0; y < size.height; y += AppTheme.dotGridSpacing) {
       for (double x = 0; x < size.width; x += AppTheme.dotGridSpacing) {
         canvas.drawCircle(Offset(x, y), AppTheme.dotGridRadius, paint);
