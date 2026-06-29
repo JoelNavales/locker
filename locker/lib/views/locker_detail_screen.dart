@@ -76,7 +76,9 @@ class _LockerDetailScreenState extends ConsumerState<LockerDetailScreen> {
     setState(() => _busy = true);
     try {
       await ref.read(lockerRepositoryProvider).delete(uid, widget.locker!.id);
-      if (mounted) Navigator.of(context).pop();
+      // Pop both this customize screen and the deleted locker's task screen so
+      // the user lands back on the home grid with the refreshed list.
+      if (mounted) Navigator.of(context).popUntil((route) => route.isFirst);
     } catch (_) {
       if (mounted) {
         setState(() => _busy = false);
