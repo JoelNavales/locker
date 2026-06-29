@@ -186,8 +186,6 @@ Each feature follows a clean layered structure: `presentation/` · `domain/` · 
 ## Author
 
 **Joel** — BSIT Student
-[![GitHub](https://img.shields.io/badge/GitHub-@JoelNavales-181717?style=flat-square&logo=github)](https://github.com/your-username)
-
 <div align="center">
 
 <br/>
