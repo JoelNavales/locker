@@ -22,7 +22,7 @@ class SignupState {
   final bool isSubmitting;
   final String? errorMessage;
 
-  bool get isNameValid => name.trim().isNotEmpty;
+  bool get isNameValid => name.trim().length >= 5;
 
   bool get isEmailValid =>
       RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$').hasMatch(email.trim());

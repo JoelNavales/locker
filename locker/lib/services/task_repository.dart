@@ -173,10 +173,10 @@ class AgendaEntry {
 /// Every task across all of the user's lockers that has a deadline set. Watches
 /// each locker's task stream, so it updates live as tasks or deadlines change.
 final agendaProvider = Provider<List<AgendaEntry>>((ref) {
-  final lockers = ref.watch(lockersProvider).valueOrNull ?? const [];
+  final lockers = ref.watch(lockersProvider).value ?? const [];
   final entries = <AgendaEntry>[];
   for (final locker in lockers) {
-    final tasks = ref.watch(tasksProvider(locker.id)).valueOrNull ?? const [];
+    final tasks = ref.watch(tasksProvider(locker.id)).value ?? const [];
     for (final task in tasks) {
       if (task.deadline != null) {
         entries.add(AgendaEntry(locker: locker, task: task));
